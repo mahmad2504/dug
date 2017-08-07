@@ -17,14 +17,14 @@ class Sync
 		$tasks =  $plan->TaskList;
 		//print_r($tasks);
 		echo '<p1 style="background-color: yellow;">State after read POC file</p>';
-		$plan->Dump;
+		$plan->Dump(1);
 		$this->plan = $plan;
 		
 		//$filter = new Filter(FILTER_FILE,$plan->Query,$plan->JiraUrl,$rebuild);
 		$cached = $this->SyncFromJira($rebuild);
 		$plan->Update;
 		echo '<p1 style="background-color: yellow;">State after Update from Jira</p>';
-		$plan->Dump;
+		$plan->Dump(0);
 		
 		$tj = new Tj($plan->Project,$plan->TasksTree,$plan->Resources);
 		$tj->Save(TJ_FILE);
@@ -42,7 +42,7 @@ class Sync
 			$tasks[$record->ExtId]->End = $record->End;
 		}
 		echo '<p1 style="background-color: yellow;">State after running schedular</p>';
-		$plan->Dump;
+		$plan->Dump(0);
 		if($cached == 0)
 			$this->SyncToJira();
 		

@@ -16,6 +16,10 @@ class Plan
 				exit();
 		}
 	}
+	public function Dump($header=1)
+	{
+		$this->plan->Dump($header);
+	}
 	public function __get($name)
 	{
 		switch($name)

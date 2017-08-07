@@ -666,8 +666,6 @@ class Pod
 				return $this->Project->End;
 			case 'Calendar':
 				return $this->Project->Calendar;
-			case 'Dump':
-				return $this->Dump();
 			case 'Update':
 				return $this->Update();
 			default:
@@ -854,99 +852,102 @@ class Pod
 		$this->AdjustSummaryTasksTimeSpent();
 		
 	}
-	private function Dump()
+	public function Dump($header=1)
 	{
 		$project = $this->Project;
 		$calendar = $project->Calendar;
 		$resources = $this->Resources;
 		
-		echo '<table style="font-size: 70%;" border="1"><col width="80"><col width="200">';
-		
-		// Project Name
-		echo '<tr>';
-		echo '<td>Project</td>';
-		echo '<td>';
-		echo $project->Name;
-		'</td>';
-		echo '</tr>';
-		
-		// Jira Url
-		echo '<tr>';
-		echo '<td>Duration</td>';
-		echo '<td>';
-		echo $project->Start." -  ".$project->End;
-		'</td>';
-		echo '</tr>';
-		
-		
-		// Jira Url
-		echo '<tr>';
-		echo '<td>Jira</td>';
-		echo '<td>';
-		echo $project->JiraUrl;
-		'</td>';
-		echo '</tr>';
-		
-		// Jira Query
-		echo '<tr>';
-		echo '<td>Query</td>';
-		echo '<td>';
-		echo $project->Query;
-		'</td>';
-		echo '</tr>';
-		
-		// Global Calendar
-		echo '<tr>';
-		echo '<td>Calendar</td>';
-		echo '<td>'.
-		$del = "";
-		$str = ""; 
-		foreach($calendar as $date)
+
+		if($header==1)
 		{
-			$str .= $del.$date;
-			$del = ",";
-		}
-		echo $str;
-		'</td>';
-		echo '</tr>';
-		//// Resources 
-		echo '<tr>';
-		echo '<td>Resources</td>';
-		$users = "";
-		$del = "";
-		foreach($resources as $resource)
-		{
-			$cal = $resource->Calendar;
-			$users .= $del.$resource->Username;
-			$del = ",";
-		}
-		echo '<td>'.$users.'</td>';
-		echo '</tr>';
-		// Resources Calendar
-		
-		foreach($resources as $resource)
-		{
-			$cal = $resource->Calendar;
+			echo '<table style="font-size: 70%;" border="1"><col width="80"><col width="200">';
+			
+			// Project Name
+			echo '<tr>';
+			echo '<td>Project</td>';
+			echo '<td>';
+			echo $project->Name;
+			'</td>';
+			echo '</tr>';
+			
+			// Jira Url
+			echo '<tr>';
+			echo '<td>Duration</td>';
+			echo '<td>';
+			echo $project->Start." -  ".$project->End;
+			'</td>';
+			echo '</tr>';
+			
+			
+			// Jira Url
+			echo '<tr>';
+			echo '<td>Jira</td>';
+			echo '<td>';
+			echo $project->JiraUrl;
+			'</td>';
+			echo '</tr>';
+			
+			// Jira Query
+			echo '<tr>';
+			echo '<td>Query</td>';
+			echo '<td>';
+			echo $project->Query;
+			'</td>';
+			echo '</tr>';
+			
+			// Global Calendar
+			echo '<tr>';
+			echo '<td>Calendar</td>';
+			echo '<td>'.
 			$del = "";
 			$str = ""; 
-			foreach($cal as $date)
+			foreach($calendar as $date)
 			{
 				$str .= $del.$date;
 				$del = ",";
 			}
-		
-		
-			if ($cal != null)
+			echo $str;
+			'</td>';
+			echo '</tr>';
+			//// Resources 
+			echo '<tr>';
+			echo '<td>Resources</td>';
+			$users = "";
+			$del = "";
+			foreach($resources as $resource)
 			{
-				echo '<tr>';
-				echo '<td>'.$resource->Username.'</td>';
-				echo '<td>'.$str.'</td>';
-				echo '</tr>';
+				$cal = $resource->Calendar;
+				$users .= $del.$resource->Username;
+				$del = ",";
 			}
+			echo '<td>'.$users.'</td>';
+			echo '</tr>';
+			// Resources Calendar
+			
+			foreach($resources as $resource)
+			{
+				$cal = $resource->Calendar;
+				$del = "";
+				$str = ""; 
+				foreach($cal as $date)
+				{
+					$str .= $del.$date;
+					$del = ",";
+				}
+			
+			
+				if ($cal != null)
+				{
+					echo '<tr>';
+					echo '<td>'.$resource->Username.'</td>';
+					echo '<td>'.$str.'</td>';
+					echo '</tr>';
+				}
+			}
+			
+			echo '</table>';
 		}
-		
-		echo '</table>';
-	
 		
 		echo '<table style="font-size: 70%;" border="1">';
 		echo '<col width="20">';  //ID
