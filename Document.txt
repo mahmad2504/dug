@@ -1,0 +1,13 @@
+If Resource is mentioned in Plan. That resource will be assigned that task and Jira assignment will be overidden
+If duration is estimated and there is no duration mentioned in Jira. Estimated will be updated in Jira
+	Estimates in Jira will be now preffered.
+
+To give preferance to estimates of Plan , give exact estimates and Jira estimate will be over ridden.
+
+If a task is resolved or closed without any work log, time spent will be assumed equal to estimates
+If a task is resolved with some work log. Duration will be assumed equal to time time spent.
+If a task work log is more than duration. Duration will be assumed equal to time spent 
+
+Task will be considered in progress state if some work is logged irrespective of Jira task status
+
+
